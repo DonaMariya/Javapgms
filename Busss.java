@@ -1,3 +1,5 @@
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 interface BusBooking {
@@ -5,9 +7,9 @@ void bookTicket();
 }
 
 class Bus implements BusBooking {
-    String[] busChoices;
+    Map<String, String> busChoices;
 
-    public Bus(String[] busChoices) 
+    public Bus(Map<String, String> busChoices) 
     {
     this.busChoices = busChoices;
     }
@@ -28,24 +30,24 @@ System.out.print("Enter the date of travel (dd/mm/yyyy): ");
 String date = sc.nextLine();
 
 System.out.println("Choose a bus:");
-for (int i = 0; i < busChoices.length; i++) {
-System.out.println((i+1) + ". " + busChoices[i]);
+for (Map.Entry<String, String>entry : busChoices.entrySet()) {
+System.out.println(entry.getKey()+ "."+entry.getValue());
 }
 
 int choice = -1;
 boolean validChoice = false;
 
 while (!validChoice) {
-System.out.print("Enter bus choice (1-" + busChoices.length + "): ");
+System.out.print("Enter bus choice (1-" + busChoices.size() + "): ");
 try {
 choice = Integer.parseInt(sc.nextLine());
-if (choice > 0 && choice <= busChoices.length) {
+if (busChoices.containsKey(choice)) {
 validChoice = true;
 } else {
 System.out.println("Invalid choice. Please choose again.");
 }
 } catch (NumberFormatException e) {
-System.out.println("Invalid. Please choose again.");
+System.out.println("Error. Please choose again.");
 }
 }
 
@@ -55,13 +57,17 @@ System.out.println("Name: " + name);
 System.out.println("Source: " + source);
 System.out.println("Destination: " + destination);
 System.out.println("Date of Travel: " + date);
-System.out.println("Bus Choice: " + busChoices[choice-1]);
+System.out.println("Bus Choice: " + busChoices.get(choice));
 }
 }
 
 public class Busss {
 public static void main(String[] args) {
-String[] busChoices = {"Bus 1", "Bus 2", "Bus 3"};
+    Map<String, String> busChoices = new HashMap<>();
+    busChoices.put("Bus 1","  Rs. 234.00");
+    busChoices.put("Bus 2","  Rs. 338.00");
+    busChoices.put("Bus 3","  Rs. 400.00");
+// String[] busChoices = {"Bus 1", "Bus 2", "Bus 3"};
 Bus bus = new Bus(busChoices);
 bus.bookTicket();
 }
